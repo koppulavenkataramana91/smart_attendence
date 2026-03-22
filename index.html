@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Attendance System </title>
+    <title>Smart Attendance System - Login</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -12,7 +12,7 @@
         <div class="login-box">
             <div class="logo">
                 <i class="fas fa-fingerprint"></i>
-                <h1>Smart Attendance System</h1>
+                <h1>Smart Attendance</h1>
             </div>
             <form id="loginForm">
                 <div class="input-group">
@@ -39,6 +39,59 @@
             <div id="message"></div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        // Users data embedded directly to avoid external file loading issues
+        const users = {
+            admin: { id: 'admin', password: 'admin123', role: 'admin', name: 'Admin User' },
+            staff: { id: 'S001', password: 'staff123', role: 'staff', name: 'John Doe', department: 'Mathematics' },
+            student: { id: 'STU001', password: 'student123', role: 'student', name: 'Jane Smith', class: 'Class A' }
+        };
+
+        // Wait for DOM to fully load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const messageEl = document.getElementById('message');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const role = document.getElementById('role').value;
+                const id = document.getElementById('id').value;
+                const password = document.getElementById('password').value;
+                
+                // Clear previous messages
+                messageEl.textContent = '';
+                messageEl.className = '';
+                
+                // Check credentials
+                const user = users[role] || users[id];
+                
+                if (user && user.id === id && user.password === password && user.role === role) {
+                    // Store user data
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    // Redirect with small delay to ensure storage completes
+                    setTimeout(() => {
+                        if (role === 'admin') {
+                            window.location.replace('admin.html');
+                        } else if (role === 'staff') {
+                            window.location.replace('staff.html');
+                        } else if (role === 'student') {
+                            window.location.replace('student.html');
+                        }
+                    }, 100);
+                } else {
+                    showMessage('Invalid credentials! Try: admin/admin123, S001/staff123, STU001/student123', 'error');
+                }
+            });
+        });
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = type;
+        }
+    </script>
 </body>
 </html>
