@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Smart Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-fingerprint"></i>
+            <span>Smart Attendance - Student</span>
+        </div>
+        <div class="nav-actions">
+            <span id="studentName"></span>
+            <button onclick="logout()" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#my-attendance" class="active"><i class="fas fa-calendar-check"></i> My Attendance</a></li>
+                <li><a href="#performance"><i class="fas fa-chart-bar"></i> Performance</a></li>
+                <li><a href="#active-sessions"><i class="fas fa-door-open"></i> Active Sessions</a></li>
+                <li><a href="#barcode"><i class="fas fa-barcode"></i> My Barcode</a></li>
+                <li><a href="#face-recognition"><i class="fas fa-face-smile"></i> Face Recognition</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-main">
+            <!-- My Attendance -->
+            <section id="my-attendance" class="dashboard-section active">
+                <h2>My Attendance</h2>
+                <div class="stats-grid">
+                    <div class="stat-card large">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h3 id="overallAttendance">92%</h3>
+                            <p>Overall Attendance</p>
+                        </div>
+                    </div>
+                    <div class="stat-card large">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3 id="classesAttended">45</h3>
+                            <p>Classes Attended</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentAttendanceTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Performance -->
+            <section id="performance" class="dashboard-section">
+                <h2>Performance Overview</h2>
+                <canvas id="attendanceChart" width="400" height="200"></canvas>
+                <div class="performance-metrics">
+                    <div class="metric-card">
+                        <h4>Monthly Attendance</h4>
+                        <p id="monthlyAttendance">94%</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Consecutive Days</h4>
+                        <p id="streak">12 days</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Face Recognition -->
+            <section id="face-recognition" class="dashboard-section">
+                <h2>Face Recognition Attendance</h2>
+                <div class="face-recognition-container">
+                    <video id="faceVideo" autoplay muted></video>
+                    <div class="face-overlay">
+                        <div class="face-frame"></div>
+                    </div>
+                    <button onclick="startFaceRecognition()" class="btn-success">
+                        <i class="fas fa-face-smile"></i> Mark Attendance
+                    </button>
+                    <div id="faceStatus"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="attendance.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

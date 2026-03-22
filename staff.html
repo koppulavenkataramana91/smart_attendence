@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Smart Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-fingerprint"></i>
+            <span>Smart Attendance - Staff</span>
+        </div>
+        <div class="nav-actions">
+            <span id="staffName"></span>
+            <button onclick="logout()" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#today-sessions" class="active"><i class="fas fa-calendar-day"></i> Today's Sessions</a></li>
+                <li><a href="#attendance-report"><i class="fas fa-file-alt"></i> Attendance Report</a></li>
+                <li><a href="#mark-manual"><i class="fas fa-check-circle"></i> Manual Marking</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-main">
+            <section id="today-sessions" class="dashboard-section active">
+                <h2>Today's Attendance Sessions</h2>
+                <div id="staffSessions">
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Mathematics - Class A</h3>
+                            <span class="session-status active">Active</span>
+                        </div>
+                        <div class="barcode-scanner">
+                            <video id="barcodeVideo" autoplay muted></video>
+                            <div class="scanner-overlay">
+                                <div class="scanner-line"></div>
+                            </div>
+                            <button onclick="startBarcodeScanner('barcodeVideo')" class="btn-scan">
+                                <i class="fas fa-camera"></i> Scan Barcode
+                            </button>
+                        </div>
+                        <div class="session-stats">
+                            <span>Present: 28/35</span>
+                            <span>Attendance: 80%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="attendance-report" class="dashboard-section">
+                <h2>Attendance Report</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffAttendanceTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="attendance.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

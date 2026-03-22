@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Attendance</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-fingerprint"></i>
+            <span>Smart Attendance - Admin</span>
+        </div>
+        <div class="nav-actions">
+            <button onclick="logout()" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#overview" class="active"><i class="fas fa-chart-bar"></i> Overview</a></li>
+                <li><a href="#manage-staff"><i class="fas fa-users"></i> Manage Staff</a></li>
+                <li><a href="#manage-students"><i class="fas fa-user-graduate"></i> Manage Students</a></li>
+                <li><a href="#attendance-logs"><i class="fas fa-history"></i> Attendance Logs</a></li>
+                <li><a href="#open-session"><i class="fas fa-door-open"></i> Open Session</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <h3 id="totalStudents">245</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-tie"></i>
+                        <div>
+                            <h3 id="totalStaff">12</h3>
+                            <p>Total Staff</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <h3 id="todayAttendance">89%</h3>
+                            <p>Today's Attendance</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h3 id="avgAttendance">92%</h3>
+                            <p>Avg Attendance</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Staff -->
+            <section id="manage-staff" class="dashboard-section">
+                <h2>Manage Staff</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn-primary" onclick="addStaff()">Add New Staff</button>
+            </section>
+
+            <!-- Open Attendance Session -->
+            <section id="open-session" class="dashboard-section">
+                <h2>Open Attendance Session</h2>
+                <div class="session-form">
+                    <select id="sessionClass">
+                        <option value="">Select Class</option>
+                        <option value="Class A">Class A</option>
+                        <option value="Class B">Class B</option>
+                    </select>
+                    <input type="text" id="sessionSubject" placeholder="Subject">
+                    <button class="btn-success" onclick="openAttendanceSession()">Open Session</button>
+                </div>
+                <div id="activeSessions"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="attendance.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
