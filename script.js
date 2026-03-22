@@ -1,77 +1,96 @@
 let currentUser = null;
-let activeSession = null;
 
-// Login functionality
-document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const role = document.getElementById('role').value;
-    const id = document.getElementById('id').value;
-    const password = document.getElementById('password').value;
-    
-    const user = users[role] || users[id];
-    
-    if (user && user.id === id && user.password === password && user.role === role) {
-        currentUser = user;
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.href = role === 'admin' ? 'admin.html' : 
-                              role === 'staff' ? 'staff.html' : 'student.html';
-    } else {
-        showMessage('Invalid credentials!', 'error');
-    }
-});
-
-function showMessage(text, type) {
-    const messageEl = document.getElementById('message');
-    if (messageEl) {
-        messageEl.textContent = text;
-        messageEl.className = `message ${type}`;
-    }
-}
-
+// Universal logout function
 function logout() {
     localStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
+    window.location.replace('index.html');
 }
 
-// Initialize user on dashboard pages
+// Initialize dashboard when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) {
-        window.location.href = 'index.html';
+    // Check if user is logged in
+    const storedUser = localStorage.getItem('currentUser');
+    if (!storedUser) {
+        window.location.replace('index.html');
         return;
     }
     
-    // Set user name in navbar
-    const nameEl = document.getElementById('staffName') || document.getElementById('studentName');
-    if (nameEl) nameEl.textContent = currentUser.name;
+    try {
+        currentUser = JSON.parse(storedUser);
+    } catch (e) {
+        localStorage.removeItem('currentUser');
+        window.location.replace('index.html');
+        return;
+    }
     
+    // Set user name in navbar if element exists
+    const nameElements = document.querySelectorAll('#staffName, #studentName');
+    nameElements.forEach(el => {
+        if (el) el.textContent = currentUser.name;
+    });
+    
+    // Initialize dashboard features
+    initSidebar();
     initDashboard();
-    loadData();
 });
 
 // Sidebar navigation
-document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.getAttribute('href');
-        
-        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-        this.classList.add('active');
-        
-        document.querySelectorAll('.dashboard-section').forEach(section => {
-            section.classList.remove('active');
+function initSidebar() {
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const targetId = this.getAttribute('href').substring(1);
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
         });
-        document.querySelector(target)?.classList.add('active');
     });
-});
+}
 
 function initDashboard() {
-    // Initialize dashboard specific features
-    if (window.location.pathname.includes('student.html')) {
+    const path = window.location.pathname;
+    
+    if (path.includes('student.html')) {
         initStudentDashboard();
-    } else if (window.location.pathname.includes('staff.html')) {
+    } else if (path.includes('staff.html')) {
         initStaffDashboard();
-    } else if (window.location.pathname.includes('admin.html')) {
+    } else if (path.includes('admin.html')) {
         initAdminDashboard();
     }
+    
+    loadSampleData();
+}
+
+// Sample data loading
+function loadSampleData() {
+    // Populate overview stats
+    document.getElementById('totalStudents') && (document.getElementById('totalStudents').textContent = '245');
+    document.getElementById('totalStaff') && (document.getElementById('totalStaff').textContent = '12');
+    document.getElementById('todayAttendance') && (document.getElementById('todayAttendance').textContent = '89%');
+    document.getElementById('avgAttendance') && (document.getElementById('avgAttendance').textContent = '92%');
+    document.getElementById('overallAttendance') && (document.getElementById('overallAttendance').textContent = '92%');
+    document.getElementById('classesAttended') && (document.getElementById('classesAttended').textContent = '45');
+}
+
+// Dashboard specific initializations
+function initStudentDashboard() {
+    console.log('Student dashboard initialized');
+}
+
+function initStaffDashboard() {
+    console.log('Staff dashboard initialized');
+}
+
+function initAdminDashboard() {
+    console.log('Admin dashboard initialized');
 }
